@@ -3,6 +3,8 @@ FROM alpine:3.7
 
 MAINTAINER Dmitry Monakhov dmonakhov@openvz.org
 
+ENV FIO_RELEASE=master
+
 # Install build deps + permanent dep: libaio
 RUN set -ex \
         && apk add --no-cache --virtual .deps \
@@ -16,7 +18,7 @@ RUN set -ex \
             linux-headers \
             coreutils \
             libaio \
-        && git clone https://github.com/axboe/fio \
+        && git clone --branch=${FIO_RELEASE} https://github.com/axboe/fio \
         && cd fio && ./configure && make -j`nproc` && make install && cd .. \
         && rm -rf fio \
         && apk del .dev
