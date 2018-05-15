@@ -3,7 +3,7 @@ FROM alpine:3.7
 
 MAINTAINER Dmitry Monakhov dmonakhov@openvz.org
 
-ENV FIO_RELEASE=master
+ENV FIO_RELEASE=fio-3.6
 
 # Install build deps + permanent dep: libaio
 RUN set -ex \
