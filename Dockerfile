@@ -5,9 +5,12 @@ MAINTAINER Dmitry Monakhov dmonakhov@openvz.org
 
 ENV FIO_RELEASE=fio-3.6
 
+VOLUME ["/fio/jobs", "/fio/test_dir", "/fio/results"]
+
 # Install build deps + permanent dep: libaio
 RUN set -ex \
         && apk add --no-cache --virtual .deps \
+            bash \
             zlib \
             libaio \
         && apk --no-cache --virtual .dev add \
@@ -18,7 +21,13 @@ RUN set -ex \
             linux-headers \
             coreutils \
             libaio \
-        && git clone --branch=${FIO_RELEASE} https://github.com/axboe/fio \
-        && cd fio && ./configure --disable-native && make -j`nproc` && make install && cd .. \
-        && rm -rf fio \
+        && git clone --branch=${FIO_RELEASE} https://github.com/axboe/fio /tmp/fio \
+        && cd /tmp/fio && ./configure --disable-native && make -j`nproc` && make install && cd \
+        && rm -rf /tmp/fio \
         && apk del .dev
+
+WORKDIR /fio/results
+
+COPY entrypoint.sh /entrypoint.sh
+
+ENTRYPOINT ["/entrypoint.sh"]
