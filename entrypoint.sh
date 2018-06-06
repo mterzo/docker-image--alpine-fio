@@ -1,6 +1,6 @@
 #!/bin/bash
 
-exec > >(tee /fio/results/${HOSTNAME}.log)
+exec > >(tee /fio/results/output-${HOSTNAME}.log)
 
 FIO=/usr/local/bin/fio
 JOB_DIR=/fio/jobs
