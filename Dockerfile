@@ -26,7 +26,7 @@ RUN set -ex \
             coreutils \
             libaio \
         && git clone --branch=${FIO_RELEASE} https://github.com/axboe/fio /tmp/fio \
-        && cd /tmp/fio && ./configure && make -j`nproc` && make install && cd \
+        && cd /tmp/fio && ./configure --disable-native && make -j`nproc` && make install && cd \
         && rm -rf /tmp/fio \
         && apk del .dev
 
